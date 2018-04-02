@@ -20,7 +20,6 @@ public class main {
 
         // LEE LAS PALABRAS DEL FICHERO Y LAS PASA A UNA ARRAY
         Scanner sc;
-        
         sc = new Scanner(System.in);
         
         String nomFitxer = "./words.txt";
@@ -42,7 +41,7 @@ public class main {
         do {
             palabra = sc.next();
             
-        } while (!(estaEnDiccionari(paraules, palabra)));
+        } while (!(estaEnDiccionari(paraules, palabra)) || !(paraulaValida(palabra, letras)));
         
         
     }
@@ -69,7 +68,7 @@ public class main {
         String letraString="";
         
         String vocales = "aeiou";
-        String consonantes = "qwrtypsdfghjklñzxcvbnm";
+        String consonantes = "qwrtypsdfghjklzxcvbnm";
 
         int vocalcont = 0;
         int indice = 0;
@@ -154,9 +153,24 @@ public class main {
 
         return puntosTotales;
     }
-    public static boolean paraulaValida(String paraula, char[]array){
+    public static boolean paraulaValida(String paraula, char[] array){
+        boolean result = false;
         
-        return true;
+        char[] paraulaArray = paraula.toUpperCase().toCharArray();
+        char[] arrayLocal = array;
+        
+        for (int i = 0; i < paraulaArray.length; i++) {
+            boolean trobat = false;
+            for (int j = 0; j < arrayLocal.length && !trobat; j++) {
+                if(paraulaArray[i] == arrayLocal[j]){
+                        trobat = true;
+                        arrayLocal[j] = '\u0000';
+                }
+            }
+            if (trobat)result=true;else result = false;
+        }
+        
+        return result;
     }
 
 }
