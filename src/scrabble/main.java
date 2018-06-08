@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package scrabble;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -12,7 +11,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author Daniel
+ * @author Ivo Carbajo
  */
 public class main {
 
@@ -33,15 +32,39 @@ public class main {
             System.out.println("Fichero no encontrado...");
         }
 
-        char [] letras = generarArrayLletres();
-        for (int i = 0; i < letras.length; i++) {
-            System.out.print(letras[i] + " ");
+        int menuOption = -1;
+
+        System.out.println("vols jugar sol (1) o contra l'ordinador (2)?");
+
+        menuOption = sc.nextInt();
+
+        System.out.println();
+
+        int total = 0;
+        for (int i = 0; i < 10; i++) {
+            char [] letras = generarArrayLletres();
+            for (int j = 0; j < letras.length; j++) {
+                System.out.print(letras[j] + " ");
+            }
+            if(menuOption == 1){
+                int scoore = 0;
+                do {
+                    palabra = sc.nextLine();
+                } while (!(estaEnDiccionari(paraules, palabra)) || !(paraulaValida(palabra, letras)));
+                scoore = calcularPuntuacio(palabra);
+                total += scoore;
+                System.out.println("puntuacion: " + scoore + " total: " + total);
+            }else if (menuOption == 2){
+                int scoore = 0;
+                do {
+                    palabra = sc.next();
+                } while (!(estaEnDiccionari(paraules, palabra)) || !(paraulaValida(palabra, letras)));
+                scoore = calcularPuntuacio(palabra);
+                total += scoore;
+                System.out.println("puntuacion: " + scoore + " total: " + total);
+            }
         }
-        
-        do {
-            palabra = sc.next();
-            
-        } while (!(estaEnDiccionari(paraules, palabra)) || !(paraulaValida(palabra, letras)));
+
         
         
     }
@@ -171,6 +194,25 @@ public class main {
         }
         
         return result;
+    }
+
+    public static String millorParaula(String[] arrayParaules, char[] arrayLletres){
+        int i=0;
+        while (!(paraulaValida(arrayParaules[i], arrayLletres))) {
+            i++;
+        }
+        int millorPuntuacio = calcularPuntuacio(arrayParaules[i]);
+        String millorParaula = arrayParaules[i];
+        for (i=0; i < arrayParaules.length; i++) {
+            if (paraulaValida(arrayParaules[i], arrayLletres)) {
+                int auxPuntuacio = calcularPuntuacio(arrayParaules[i]);
+                if (auxPuntuacio > millorPuntuacio) {
+                    millorPuntuacio = auxPuntuacio;
+                    millorParaula = arrayParaules[i];
+                }
+            }
+        }
+        return millorParaula;
     }
 
 }
