@@ -12,6 +12,8 @@ import java.util.Scanner;
 /**
  *
  * @author Ivo Carbajo
+ * M03 UF2
+ *
  */
 public class main {
 
@@ -41,6 +43,7 @@ public class main {
         System.out.println();
 
         int total = 0;
+        int botTotal = 0;
         for (int i = 0; i < 10; i++) {
             char [] letras = generarArrayLletres();
             for (int j = 0; j < letras.length; j++) {
@@ -56,17 +59,25 @@ public class main {
                 System.out.println("puntuacion: " + scoore + " total: " + total);
             }else if (menuOption == 2){
                 int scoore = 0;
+                int botScore = 0;
                 do {
                     palabra = sc.next();
                 } while (!(estaEnDiccionari(paraules, palabra)) || !(paraulaValida(palabra, letras)));
+
+
+                try{
+                    botScore = calcularPuntuacio(millorParaula(paraules, letras)); //aquesta funcio dona error gairebe sempre, (ArrayIndexOutOfBoundsException)
+                }catch (ArrayIndexOutOfBoundsException e){
+                    System.out.println("no s'ha pogut calcular la puntuacio de la maquina. la puntuacio total de la maquina es quedara tal com esta per una ronda mes, tens ventatja, aprofitala");
+                }
+
+                botTotal += botScore;
                 scoore = calcularPuntuacio(palabra);
                 total += scoore;
                 System.out.println("puntuacion: " + scoore + " total: " + total);
+                System.out.println("puntuacio de la maquina: " + botScore + " total: " + botTotal);
             }
         }
-
-        
-        
     }
 
     public static String[] llegirParaules(String path) throws FileNotFoundException {
@@ -129,13 +140,13 @@ public class main {
     }
 
     public static int calcularPuntuacio(String paraula) {
-        char[] punto1 = {'E', 'A', 'I', 'O', 'N', 'R', 'T', 'L', 'S', 'U'};
-        char[] punto2 = {'D', 'G'};
-        char[] punto3 = {'B', 'C', 'M', 'P'};
-        char[] punto4 = {'F', 'H', 'V', 'W', 'Y'};
-        char[] punto5= {'K'};
-        char[] punto8 = {'J', 'X'};
-        char[] punto10 = {'Q', 'Z'};
+        char[] punto1 = {'E', 'A', 'I', 'O', 'N', 'R', 'T', 'L', 'S', 'U', 'a', 'e', 'i', 'o', 'n', 'r', 't', 'l', 's', 'u'};
+        char[] punto2 = {'D', 'G', 'd', 'g'};
+        char[] punto3 = {'B', 'C', 'M', 'P', 'b', 'c', 'm', 'p'};
+        char[] punto4 = {'F', 'H', 'V', 'W', 'Y', 'f', 'h', 'v', 'w', 'y'};
+        char[] punto5= {'K', 'k'};
+        char[] punto8 = {'J', 'X', 'j', 'x'};
+        char[] punto10 = {'Q', 'Z', 'q', 'x'};
         
         char[][] puntos={punto1,punto2,punto3,punto4,punto5,punto8,punto10};
         
